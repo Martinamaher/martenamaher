@@ -1,10 +1,10 @@
 ﻿using EyeGlassesApplication.Models;
 using System.ComponentModel.DataAnnotations;
 
-public class OrderDetail
+public class Order_Details
 {
 	[Key]
-	public int OrderDetailID { get; set; }
+	public int OrderDetailsID { get; set; }
 
 	public int OrderID { get; set; }
 	public Order Order { get; set; }

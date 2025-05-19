@@ -1,28 +1,69 @@
-﻿using EyeGlassesApplication.Models;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Product
+namespace EyeGlassesApplication.Models
 {
-	[Key]
-	public int ProductID { get; set; }
+	[Table("Products")]
+	public class Product
+	{
+		[Key]
+		[Column("id")]
+		public int ProductID { get; set; }
 
-	[Required, MaxLength(150)]
-	public string ProductName { get; set; }
+		[Required]
+		[Column("name")]
+		[MaxLength(150)]
+		public string ProductName { get; set; }
 
-	public string Description { get; set; }
+		[Column("description")]
+		public string Description { get; set; }
 
-	public decimal Price { get; set; }
+		[Column("price")]
+		public decimal Price { get; set; }
 
-	public int FrameCompanyID { get; set; }
-	public FrameCompany FrameCompany { get; set; }
+		[Column("stock")]
+		public int Stock { get; set; }
 
-	public int LenseCompanyID { get; set; }
-	public LenseCompany LenseCompany { get; set; }
+		[Column("image_url")]
+		public string ImageUrl { get; set; }
 
-	public int? DiscountID { get; set; }
-	public Discount Discount { get; set; }
+		[Required]
+		[Column("lense_company_id")]
+		public int LenseCompanyId { get; set; }
 
-	public ICollection<Order_Details> OrderDetails { get; set; }
-	public ICollection<Inventory> Inventories { get; set; }
-	public ICollection<Reviews> Reviews { get; set; }
+		[Required]
+		[Column("frame_company_id")]
+		public int FrameCompanyID { get; set; }
+
+		[Required]
+		[Column("created_by_admin")]
+		public int CreatedByAdmin { get; set; }
+
+		[Required]
+		[Column("updated_by_admin")]
+		public int UpdatedByAdmin { get; set; }
+
+		[Column("created_at")]
+		public DateTime CreatedAt { get; set; }
+
+		[Column("discount_id")]
+		public int? DiscountId { get; set; }
+
+		// Navigation Properties
+		[ForeignKey("LenseCompanyId")]
+		public LenseCompany LenseCompany { get; set; }
+
+		[ForeignKey("FrameCompanyID")]
+		public FrameCompany FrameCompany { get; set; }
+
+		[ForeignKey("CreatedByAdmin")]
+		public Admin CreatedBy { get; set; }
+
+		[ForeignKey("UpdatedByAdmin")]
+		public Admin UpdatedBy { get; set; }
+
+		[ForeignKey("DiscountId")]
+		public Discount Discount { get; set; }
+	}
 }

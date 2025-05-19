@@ -1,8 +1,5 @@
-﻿using EyeGlassesApplication.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 public class Order
 {
@@ -18,20 +15,22 @@ public class Order
 
 	[Required]
 	[MaxLength(50)]
-	public string Status { get; set; }  // مثال: Pending, Completed, Cancelled
+	public string Status { get; set; }
 
 	[Required]
 	[Column(TypeName = "decimal(10, 2)")]
 	public decimal TotalAmount { get; set; }
 
-	// Navigation properties
 	public User User { get; set; }
-	public ICollection<OrderDetail> OrderDetails { get; set; }
+
+	public ICollection<Order_Details> OrderDetails { get; set; }
 	public ICollection<Payment> Payments { get; set; }
 
 	public Order()
 	{
 		OrderDate = DateTime.Now;
 		Status = "Pending";
+		OrderDetails = new List<Order_Details>();
+		Payments = new List<Payment>();
 	}
 }

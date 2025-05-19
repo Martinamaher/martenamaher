@@ -1,0 +1,17 @@
+﻿@host = http://localhost:5126
+
+### Test weather endpoint
+GET {{host}}/weatherforecast
+Accept: application/json
+
+###
+
+### Test Login endpoint
+POST {{host}}/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "valid@example.com",
+  "password": "validPassword"
+}

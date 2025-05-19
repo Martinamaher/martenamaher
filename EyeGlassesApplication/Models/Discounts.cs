@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using EyeGlassesApplication.Models;
 public class Discount
 {
 	[Key]

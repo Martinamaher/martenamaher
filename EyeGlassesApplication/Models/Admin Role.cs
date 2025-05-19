@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EyeGlassesApplication.Models;
+using System.ComponentModel.DataAnnotations;
 
 public class AdminRole
 {
