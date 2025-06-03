@@ -1,18 +1,31 @@
-﻿using EyeGlassesApplication.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using EyeGlassesApplication.Models;
 
-public class Order_Details
+namespace EyeGlassesApplication.Models
 {
-	[Key]
-	public int OrderDetailsID { get; set; }
+	public class Order_Details
+	{
+		[Key]
+		public int OrderDetailsID { get; set; }
 
-	public int OrderID { get; set; }
-	public Order Order { get; set; }
+		[Required]
+		public int OrderID { get; set; }
 
-	public int ProductID { get; set; }
-	public Product Product { get; set; }
+		[ForeignKey("OrderID")]
+		public Order Order { get; set; }
 
-	public int Quantity { get; set; }
+		[Required]
+		public int ProductID { get; set; }
 
-	public decimal UnitPrice { get; set; }
+		[ForeignKey("ProductID")]
+		public Product Product { get; set; }
+
+		[Required]
+		public int Quantity { get; set; }
+
+		[Required]
+		[Column(TypeName = "decimal(10, 2)")]
+		public decimal UnitPrice { get; set; }
+	}
 }

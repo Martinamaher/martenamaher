@@ -1,19 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
-using EyeGlassesApplication.Models;
-public class Discount
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace EyeGlassesApplication.Models
 {
-	[Key]
-	public int DiscountID { get; set; }
+	public class Discount
+	{
+		[Key]
+		public int DiscountID { get; set; }
 
-	[Required, MaxLength(100)]
-	public string DiscountName { get; set; }
+		[Required]
+		[MaxLength(100)]
+		public string DiscountName { get; set; }
 
-	[Required]
-	public decimal Percentage { get; set; }
+		[Required]
+		public decimal DiscountPercentage { get; set; }
 
-	public DateTime StartDate { get; set; }
+		[Required]
+		public DateTime StartDate { get; set; }
 
-	public DateTime EndDate { get; set; }
+		[Required]
+		public DateTime EndDate { get; set; }
 
-	public ICollection<Product> Products { get; set; }
+		// Navigation property: Products associated with this discount
+		public ICollection<Product> Products { get; set; } = new List<Product>();
+	}
 }

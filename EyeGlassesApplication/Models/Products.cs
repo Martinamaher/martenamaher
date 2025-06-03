@@ -12,20 +12,23 @@ namespace EyeGlassesApplication.Models
 		public int ProductID { get; set; }
 
 		[Required]
-		[Column("name")]
 		[MaxLength(150)]
+		[Column("name")]
 		public string ProductName { get; set; }
 
 		[Column("description")]
 		public string Description { get; set; }
 
-		[Column("price")]
+		[Required]
+		[Column("price", TypeName = "decimal(18,2)")]
 		public decimal Price { get; set; }
 
+		[Required]
 		[Column("stock")]
 		public int Stock { get; set; }
 
 		[Column("image_url")]
+		[MaxLength(255)]
 		public string ImageUrl { get; set; }
 
 		[Required]
@@ -44,26 +47,28 @@ namespace EyeGlassesApplication.Models
 		[Column("updated_by_admin")]
 		public int UpdatedByAdmin { get; set; }
 
+		[Required]
 		[Column("created_at")]
-		public DateTime CreatedAt { get; set; }
+		public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 		[Column("discount_id")]
-		public int? DiscountId { get; set; }
+		public int? DiscountID { get; set; }
 
 		// Navigation Properties
-		[ForeignKey("LenseCompanyId")]
+
+		[ForeignKey(nameof(LenseCompanyId))]
 		public LenseCompany LenseCompany { get; set; }
 
-		[ForeignKey("FrameCompanyID")]
+		[ForeignKey(nameof(FrameCompanyID))]
 		public FrameCompany FrameCompany { get; set; }
 
-		[ForeignKey("CreatedByAdmin")]
+		[ForeignKey(nameof(CreatedByAdmin))]
 		public Admin CreatedBy { get; set; }
 
-		[ForeignKey("UpdatedByAdmin")]
+		[ForeignKey(nameof(UpdatedByAdmin))]
 		public Admin UpdatedBy { get; set; }
 
-		[ForeignKey("DiscountId")]
+		[ForeignKey(nameof(DiscountID))]
 		public Discount Discount { get; set; }
 	}
 }

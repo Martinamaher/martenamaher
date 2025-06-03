@@ -1,45 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-public class User
+namespace EyeGlassesApplication.Models
 {
-	[Key]
-	public int UserID { get; set; }
-
-	[Required]
-	[MaxLength(100)]
-	public string FirstName { get; set; }
-
-	[Required]
-	[MaxLength(100)]
-	public string LastName { get; set; }
-
-	[Required]
-	[MaxLength(150)]
-	public string Email { get; set; }
-
-	[Required]
-	[MaxLength(255)]
-	public string Password { get; set; }
-
-	[Required]
-	[MaxLength(20)]
-	public string PhoneNumber { get; set; }
-
-	[Required]
-	public DateTime DateOfBirth { get; set; }
-
-	public DateTime DateCreated { get; set; }
-
-	[Required]
-	public bool IsActive { get; set; }
-
-
-	// Constructor to set default values
-	public User()
+	public class User
 	{
-		DateCreated = DateTime.Now;
-		IsActive = true;  // Default to active when created
+		[Key]
+		public int ID { get; set; }  // يتطابق مع العمود ID في قاعدة البيانات
+
+		[Required]
+		[MaxLength(20)]
+		public string F_Name { get; set; }  // الاسم الأول
+
+		[Required]
+		[MaxLength(20)]
+		public string L_Name { get; set; }  // الاسم الأخير
+
+		[Required]
+		[MaxLength(100)]
+		public string Password { get; set; }  // كلمة المرور (يفضل تشفيرها عند التخزين)
+
+		[Required]
+		[MaxLength(20)]
+		public string Phone { get; set; }  // رقم الهاتف
+
+		[Required]
+		[MaxLength(200)]
+		[EmailAddress(ErrorMessage = "Invalid Email Address")]
+		public string Email { get; set; }  // البريد الإلكتروني
+
+		public string Address { get; set; }  // العنوان (نص طويل)
+
+		[Required]
+		public DateTime Register_Date { get; set; } = DateTime.Now;  // تاريخ التسجيل (قيمة افتراضية اليوم)
+
+		[Required]
+		public bool IsActive { get; set; } = true;  // حالة التفعيل (افتراضيًا مفعل)
+
+		// يمكنك إضافة خواص ملاحية هنا لو أردت الربط مع جداول أخرى مثل الطلبات مثلاً.
 	}
 }

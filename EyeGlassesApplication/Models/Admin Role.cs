@@ -1,24 +1,26 @@
-﻿using EyeGlassesApplication.Models;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-public class AdminRole
+namespace EyeGlassesApplication.Models
 {
-	[Key]
-	public int AdminRoleID { get; set; }
-
-	[Required]
-	[MaxLength(50)]
-	public string RoleName { get; set; }
-
-	[MaxLength(255)]
-	public string Description { get; set; }
-
-	// Navigation Property: Relationship with Admin
-	public ICollection<Admin> Admins { get; set; }
-
-	// Constructor to set default values
-	public AdminRole()
+	public class AdminRole
 	{
-		Admins = new List<Admin>();  // Initialize the collection of Admins
+		[Key]
+		public int AdminRoleID { get; set; }
+
+		[Required]
+		[StringLength(50)]
+		public string RoleName { get; set; }
+
+		[StringLength(255)]
+		public string Description { get; set; }
+
+		// علاقة Many-to-Many مع Admin من خلال جدول AdminAdminRole
+		public ICollection<AdminAdminRole> AdminAdminRoles { get; set; }
+
+		public AdminRole()
+		{
+			AdminAdminRoles = new List<AdminAdminRole>();
+		}
 	}
 }
