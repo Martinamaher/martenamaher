@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EyeGlassesApplication.Models;  // تأكد من إضافة الـ Models المناسبة هنا
+using EyeGlassesApplication.Models;
 
 namespace EyeGlassesApplication.Data
 {
@@ -29,7 +29,7 @@ namespace EyeGlassesApplication.Data
 		{
 			base.OnModelCreating(modelBuilder);
 
-			// إعداد العلاقة Many-to-Many بين Admin و AdminRole
+			// علاقة Many-to-Many بين Admin و AdminRole
 			modelBuilder.Entity<AdminAdminRole>()
 				.HasKey(ar => new { ar.AdminID, ar.AdminRoleID });
 
@@ -37,11 +37,37 @@ namespace EyeGlassesApplication.Data
 				.HasOne(ar => ar.Admin)
 				.WithMany(a => a.AdminAdminRoles)
 				.HasForeignKey(ar => ar.AdminID);
+
 			modelBuilder.Entity<AdminAdminRole>()
-			  .HasOne(ar => ar.AdminRole)
-			  .WithMany(r => r.AdminAdminRoles)
-			  .HasForeignKey(ar => ar.AdminRoleID);
+				.HasOne(ar => ar.AdminRole)
+				.WithMany(r => r.AdminAdminRoles)
+				.HasForeignKey(ar => ar.AdminRoleID);
+
+			// دقة الحقول المالية
+			modelBuilder.Entity<Lens>()
+				.Property(l => l.Price)
+				.HasPrecision(18, 2);
+
+			modelBuilder.Entity<Discount>()
+				.Property(d => d.DiscountPercentage)
+				.HasPrecision(5, 2);
+
+			modelBuilder.Entity<Product>()
+				.Property(p => p.Price)
+				.HasPrecision(18, 2);
+
+			// منع multiple cascade paths بين Product و Admin
+			modelBuilder.Entity<Product>()
+				.HasOne(p => p.CreatedBy)
+				.WithMany()
+				.HasForeignKey(p => p.CreatedByAdmin)
+				.OnDelete(DeleteBehavior.Restrict); // ⛔ منع الحذف التلقائي
+
+			modelBuilder.Entity<Product>()
+				.HasOne(p => p.UpdatedBy)
+				.WithMany()
+				.HasForeignKey(p => p.UpdatedByAdmin)
+				.OnDelete(DeleteBehavior.Restrict); // ⛔ منع الحذف التلقائي
 		}
 	}
-
-	}
+}

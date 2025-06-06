@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EyeGlassesApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250515124457_UpdateProductsModel")]
-    partial class UpdateProductsModel
+    [Migration("20250605150720_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,71 +24,6 @@ namespace EyeGlassesApplication.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AdminAdminRole", b =>
-                {
-                    b.Property<int>("AdminRolesAdminRoleID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AdminsAdminID")
-                        .HasColumnType("int");
-
-                    b.HasKey("AdminRolesAdminRoleID", "AdminsAdminID");
-
-                    b.HasIndex("AdminsAdminID");
-
-                    b.ToTable("AdminAdminRole");
-                });
-
-            modelBuilder.Entity("AdminRole", b =>
-                {
-                    b.Property<int>("AdminRoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminRoleID"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("AdminRoleID");
-
-                    b.ToTable("AdminRoles");
-                });
-
-            modelBuilder.Entity("Discount", b =>
-                {
-                    b.Property<int>("DiscountID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountID"));
-
-                    b.Property<string>("DiscountName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Percentage")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("DiscountID");
-
-                    b.ToTable("Discounts");
-                });
 
             modelBuilder.Entity("EyeGlassesApplication.Models.Admin", b =>
                 {
@@ -137,7 +72,73 @@ namespace EyeGlassesApplication.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("FrameCompany", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.AdminAdminRole", b =>
+                {
+                    b.Property<int>("AdminID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AdminRoleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdminID", "AdminRoleID");
+
+                    b.HasIndex("AdminRoleID");
+
+                    b.ToTable("AdminAdminRoles");
+                });
+
+            modelBuilder.Entity("EyeGlassesApplication.Models.AdminRole", b =>
+                {
+                    b.Property<int>("AdminRoleID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminRoleID"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("AdminRoleID");
+
+                    b.ToTable("AdminRoles");
+                });
+
+            modelBuilder.Entity("EyeGlassesApplication.Models.Discount", b =>
+                {
+                    b.Property<int>("DiscountID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountID"));
+
+                    b.Property<string>("DiscountName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("DiscountPercentage")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DiscountID");
+
+                    b.ToTable("Discounts");
+                });
+
+            modelBuilder.Entity("EyeGlassesApplication.Models.FrameCompany", b =>
                 {
                     b.Property<int>("FrameCompanyID")
                         .ValueGeneratedOnAdd()
@@ -145,48 +146,60 @@ namespace EyeGlassesApplication.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FrameCompanyID"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("ContactPerson")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<int?>("FrameCompanyID1")
+                    b.Property<int?>("AddedByAdminID")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Material")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
                     b.HasKey("FrameCompanyID");
 
-                    b.HasIndex("FrameCompanyID1");
+                    b.HasIndex("AddedByAdminID");
 
                     b.ToTable("FrameCompanies");
                 });
 
-            modelBuilder.Entity("Inventory", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Inventory", b =>
                 {
                     b.Property<int>("InventoryID")
                         .ValueGeneratedOnAdd()
@@ -210,7 +223,42 @@ namespace EyeGlassesApplication.Migrations
                     b.ToTable("Inventories");
                 });
 
-            modelBuilder.Entity("LenseCompany", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Lens", b =>
+                {
+                    b.Property<int>("LensID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LensID"));
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LensType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("LenseCompanyID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Material")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("LensID");
+
+                    b.HasIndex("LenseCompanyID");
+
+                    b.ToTable("Lenses");
+                });
+
+            modelBuilder.Entity("EyeGlassesApplication.Models.LenseCompany", b =>
                 {
                     b.Property<int>("LenseCompanyID")
                         .ValueGeneratedOnAdd()
@@ -244,9 +292,6 @@ namespace EyeGlassesApplication.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LenseCompanyID1")
-                        .HasColumnType("int");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -254,12 +299,10 @@ namespace EyeGlassesApplication.Migrations
 
                     b.HasKey("LenseCompanyID");
 
-                    b.HasIndex("LenseCompanyID1");
-
                     b.ToTable("LenseCompanies");
                 });
 
-            modelBuilder.Entity("Order", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
@@ -288,7 +331,7 @@ namespace EyeGlassesApplication.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Order_Details", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Order_Details", b =>
                 {
                     b.Property<int>("OrderDetailsID")
                         .ValueGeneratedOnAdd()
@@ -306,7 +349,7 @@ namespace EyeGlassesApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10, 2)");
 
                     b.HasKey("OrderDetailsID");
 
@@ -314,10 +357,10 @@ namespace EyeGlassesApplication.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("Order_Details");
+                    b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("Payment", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentID")
                         .ValueGeneratedOnAdd()
@@ -351,47 +394,81 @@ namespace EyeGlassesApplication.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("Product", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Product", b =>
                 {
                     b.Property<int>("ProductID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("CreatedByAdmin")
+                        .HasColumnType("int")
+                        .HasColumnName("created_by_admin");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("description");
 
                     b.Property<int?>("DiscountID")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("discount_id");
 
                     b.Property<int>("FrameCompanyID")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("frame_company_id");
 
-                    b.Property<int>("LenseCompanyID")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("image_url");
+
+                    b.Property<int>("LenseCompanyId")
+                        .HasColumnType("int")
+                        .HasColumnName("lense_company_id");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("price");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int")
+                        .HasColumnName("stock");
+
+                    b.Property<int>("UpdatedByAdmin")
+                        .HasColumnType("int")
+                        .HasColumnName("updated_by_admin");
 
                     b.HasKey("ProductID");
+
+                    b.HasIndex("CreatedByAdmin");
 
                     b.HasIndex("DiscountID");
 
                     b.HasIndex("FrameCompanyID");
 
-                    b.HasIndex("LenseCompanyID");
+                    b.HasIndex("LenseCompanyId");
+
+                    b.HasIndex("UpdatedByAdmin");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Review", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Review", b =>
                 {
                     b.Property<int>("ReviewID")
                         .ValueGeneratedOnAdd()
@@ -425,79 +502,81 @@ namespace EyeGlassesApplication.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.User", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("UserID");
+                    b.Property<DateTime>("Register_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("ID");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("AdminAdminRole", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.AdminAdminRole", b =>
                 {
-                    b.HasOne("AdminRole", null)
-                        .WithMany()
-                        .HasForeignKey("AdminRolesAdminRoleID")
+                    b.HasOne("EyeGlassesApplication.Models.Admin", "Admin")
+                        .WithMany("AdminAdminRoles")
+                        .HasForeignKey("AdminID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EyeGlassesApplication.Models.Admin", null)
-                        .WithMany()
-                        .HasForeignKey("AdminsAdminID")
+                    b.HasOne("EyeGlassesApplication.Models.AdminRole", "AdminRole")
+                        .WithMany("AdminAdminRoles")
+                        .HasForeignKey("AdminRoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("AdminRole");
                 });
 
-            modelBuilder.Entity("FrameCompany", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.FrameCompany", b =>
                 {
-                    b.HasOne("FrameCompany", null)
-                        .WithMany("Frame_Compaines")
-                        .HasForeignKey("FrameCompanyID1");
+                    b.HasOne("EyeGlassesApplication.Models.Admin", "AddedByAdminNavigation")
+                        .WithMany()
+                        .HasForeignKey("AddedByAdminID");
+
+                    b.Navigation("AddedByAdminNavigation");
                 });
 
-            modelBuilder.Entity("Inventory", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Inventory", b =>
                 {
-                    b.HasOne("Product", "Product")
-                        .WithMany("Inventories")
+                    b.HasOne("EyeGlassesApplication.Models.Product", "Product")
+                        .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -505,16 +584,20 @@ namespace EyeGlassesApplication.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("LenseCompany", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Lens", b =>
                 {
-                    b.HasOne("LenseCompany", null)
+                    b.HasOne("EyeGlassesApplication.Models.LenseCompany", "LenseCompany")
                         .WithMany("Lenses")
-                        .HasForeignKey("LenseCompanyID1");
+                        .HasForeignKey("LenseCompanyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LenseCompany");
                 });
 
-            modelBuilder.Entity("Order", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Order", b =>
                 {
-                    b.HasOne("User", "User")
+                    b.HasOne("EyeGlassesApplication.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -523,16 +606,16 @@ namespace EyeGlassesApplication.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Order_Details", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Order_Details", b =>
                 {
-                    b.HasOne("Order", "Order")
+                    b.HasOne("EyeGlassesApplication.Models.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Product", "Product")
-                        .WithMany("OrderDetails")
+                    b.HasOne("EyeGlassesApplication.Models.Product", "Product")
+                        .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -542,13 +625,13 @@ namespace EyeGlassesApplication.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Payment", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Payment", b =>
                 {
                     b.HasOne("EyeGlassesApplication.Models.Admin", null)
                         .WithMany("Payments")
                         .HasForeignKey("AdminID");
 
-                    b.HasOne("Order", "Order")
+                    b.HasOne("EyeGlassesApplication.Models.Order", "Order")
                         .WithMany("Payments")
                         .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -557,40 +640,56 @@ namespace EyeGlassesApplication.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("Product", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Product", b =>
                 {
-                    b.HasOne("Discount", "Discount")
+                    b.HasOne("EyeGlassesApplication.Models.Admin", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByAdmin")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EyeGlassesApplication.Models.Discount", "Discount")
                         .WithMany("Products")
                         .HasForeignKey("DiscountID");
 
-                    b.HasOne("FrameCompany", "FrameCompany")
-                        .WithMany()
+                    b.HasOne("EyeGlassesApplication.Models.FrameCompany", "FrameCompany")
+                        .WithMany("Products")
                         .HasForeignKey("FrameCompanyID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LenseCompany", "LenseCompany")
+                    b.HasOne("EyeGlassesApplication.Models.LenseCompany", "LenseCompany")
                         .WithMany()
-                        .HasForeignKey("LenseCompanyID")
+                        .HasForeignKey("LenseCompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("EyeGlassesApplication.Models.Admin", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedByAdmin")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("Discount");
 
                     b.Navigation("FrameCompany");
 
                     b.Navigation("LenseCompany");
+
+                    b.Navigation("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Review", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Review", b =>
                 {
-                    b.HasOne("Product", "Product")
-                        .WithMany("Reviews")
+                    b.HasOne("EyeGlassesApplication.Models.Product", "Product")
+                        .WithMany()
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("User", "User")
+                    b.HasOne("EyeGlassesApplication.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -601,40 +700,38 @@ namespace EyeGlassesApplication.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Discount", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Admin", b =>
+                {
+                    b.Navigation("AdminAdminRoles");
+
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("EyeGlassesApplication.Models.AdminRole", b =>
+                {
+                    b.Navigation("AdminAdminRoles");
+                });
+
+            modelBuilder.Entity("EyeGlassesApplication.Models.Discount", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("EyeGlassesApplication.Models.Admin", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.FrameCompany", b =>
                 {
-                    b.Navigation("Payments");
+                    b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("FrameCompany", b =>
-                {
-                    b.Navigation("Frame_Compaines");
-                });
-
-            modelBuilder.Entity("LenseCompany", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.LenseCompany", b =>
                 {
                     b.Navigation("Lenses");
                 });
 
-            modelBuilder.Entity("Order", b =>
+            modelBuilder.Entity("EyeGlassesApplication.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
 
                     b.Navigation("Payments");
-                });
-
-            modelBuilder.Entity("Product", b =>
-                {
-                    b.Navigation("Inventories");
-
-                    b.Navigation("OrderDetails");
-
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,11 +10,7 @@ namespace EyeGlassesApplication.Models
 
 		[Required]
 		[MaxLength(20)]
-		public string F_Name { get; set; }  // الاسم الأول
-
-		[Required]
-		[MaxLength(20)]
-		public string L_Name { get; set; }  // الاسم الأخير
+		public string UserName { get; set; }
 
 		[Required]
 		[MaxLength(100)]

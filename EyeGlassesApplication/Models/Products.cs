@@ -70,5 +70,7 @@ namespace EyeGlassesApplication.Models
 
 		[ForeignKey(nameof(DiscountID))]
 		public Discount Discount { get; set; }
+		public decimal Weight { get; set; }
 	}
+
 }

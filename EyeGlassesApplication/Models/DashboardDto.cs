@@ -9,6 +9,7 @@
 		public List<RecentOrderDTO> RecentOrders { get; set; }
 		public string TopProductName { get; set; }
 		public int TopProductSales { get; set; }
+		public decimal totalWeightSols{get; set; }
 	}
 
 	public class RecentOrderDTO
@@ -17,5 +18,6 @@
 		public string CustomerName { get; set; }
 		public DateTime OrderDate { get; set; }
 		public decimal OrderTotal { get; set; }
+		public decimal Weight { get; set; }
 	}
 }
